@@ -17,6 +17,7 @@ import { getRevision } from 'console/state/revisions/selectors';
 import { getUrlParamAsInt } from 'console/state/router/selectors';
 
 @connect((state, props) => {
+  console.log('IN @CONNECT!', state, state.toJSON());
   const recipeId = getUrlParamAsInt(state, 'recipeId');
   const latestRevisionId = getLatestRevisionIdForRecipe(state, recipeId, '');
   const revisionId = getUrlParamAsInt(state, 'revisionId', latestRevisionId);
@@ -39,6 +40,9 @@ class RecipeDetailPage extends React.PureComponent {
 
   render() {
     const { history, recipeId, revision, revisionId } = this.props;
+    if (recipeId === null) throw new Error('get your proptype s**t together!');
+    console.warn('RECIPCEID:', recipeId);
+
     return (
       <div className="content-wrapper page-recipe-details">
         <QueryRecipe pk={recipeId} />
