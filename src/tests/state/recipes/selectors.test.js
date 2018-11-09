@@ -39,6 +39,23 @@ describe('getRecipe', () => {
   );
 
   it('should return the recipe', () => {
+    const got = getRecipe(STATE, recipe.id);
+    const exp = fromJS(recipe);
+    // const exp = recipe;
+    console.log('GOT');
+    console.log(got);
+    console.log('EXP');
+    console.log(exp);
+    got.forEach((value, key) => {
+      const other = exp.get(key);
+      if (other !== value) {
+        console.log('THING', key, value, other);
+      }
+    });
+    // Object.keys(got, key => {
+
+    // })
+
     expect(getRecipe(STATE, recipe.id)).toEqualImmutable(fromJS(recipe));
   });
 

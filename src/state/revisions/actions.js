@@ -16,7 +16,7 @@ export function revisionReceived(revision) {
 
     dispatch({
       type: ACTION_RECEIVE,
-      action: revision.recipe.action,
+      action: revision.action,
     });
 
     if (revision.approval_request) {

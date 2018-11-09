@@ -18,9 +18,13 @@ import { getUrlParamAsInt } from 'console/state/router/selectors';
 
 @connect((state, props) => {
   const recipeId = getUrlParamAsInt(state, 'recipeId');
+  console.log('recipeId', recipeId);
   const latestRevisionId = getLatestRevisionIdForRecipe(state, recipeId, null);
+  console.log('latestRevisionId', latestRevisionId);
   const revisionId = getUrlParamAsInt(state, 'revisionId', latestRevisionId);
+  console.log('revisionId', revisionId);
   const revision = getRevision(state, revisionId, new Map());
+  console.log('revision', revision.toJS());
 
   return {
     history: getRecipeHistory(state, recipeId, new List()),
@@ -39,6 +43,9 @@ class RecipeDetailPage extends React.PureComponent {
 
   render() {
     const { history, recipeId, revision, revisionId } = this.props;
+    console.log('REVISION:', revision.toJS());
+    const recipe = revision.get('recipe', new Map());
+    console.log('RECIPE', recipe.toJS());
     return (
       <div className="content-wrapper page-recipe-details">
         <QueryRecipe pk={recipeId} />
@@ -54,7 +61,7 @@ class RecipeDetailPage extends React.PureComponent {
             <LoadingOverlay
               requestIds={[`fetch-recipe-${recipeId}`, `fetch-revision-${revisionId}`]}
             >
-              <RecipeDetails recipe={revision.get('recipe', new Map())} />
+              <RecipeDetails recipe={recipe} />
             </LoadingOverlay>
           </Col>
           <Col span={8} className="recipe-history">

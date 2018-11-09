@@ -17,6 +17,7 @@ export default class RecipeDetails extends React.PureComponent {
   render() {
     const { recipe } = this.props;
     const actionName = recipe.getIn(['action', 'name']);
+    const recipeArguments = recipe.get('arguments', new Map());
     const filterObject = recipe.get('filter_object');
     const extraFilterExpression = recipe.get('extra_filter_expression');
     return (
@@ -28,7 +29,7 @@ export default class RecipeDetails extends React.PureComponent {
 
             {filterObject && filterObject.size ? <dt>Filters</dt> : null}
             {filterObject && filterObject.size ? (
-              <ArgumentsValue name="filter_object" value={recipe.get('filter_object')} />
+              <ArgumentsValue name="filter_object" value={filterObject} />
             ) : null}
 
             <dt>
@@ -46,8 +47,7 @@ export default class RecipeDetails extends React.PureComponent {
             <dt>Name</dt>
             <ArgumentsValue name="name" value={actionName} />
 
-            {recipe
-              .get('arguments', new Map())
+            {recipeArguments
               .map((value, key) => [
                 <dt key={`dt-${key}`}>{key.replace(/([A-Z]+)/g, ' $1')}</dt>,
                 <ArgumentsValue
